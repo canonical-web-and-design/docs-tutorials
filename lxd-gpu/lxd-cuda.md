@@ -161,7 +161,7 @@ sudo ./cuda_8.0.61_375.26_linux.run
 The installer will ask a few questions.
 
 Accept the licence but answer `n` when asked whether you want to install the
-NVIDIA accelerated driver. This is because the installer typically bundles an
+Nvidia accelerated driver. This is because the installer typically bundles an
 older version of the driver, such as 375.26 with our example, and you don't
 want this installed on-top of the driver we already have. All further questions
 can be answered `y` to accept their default values. 
@@ -200,7 +200,7 @@ of the output.
 With the host now correctly configured and ready to go, it's time to launch LXD.
 
 If this is the first time you've used LXD, see our [getting started
-guide][getstarted] guide for a few pointers. 
+guide][getstarted] for a few pointers. 
 
 In particular, you will need to have a network and a storage pool defined. The
 `lxd init` command will step you through the process if you've not done this
@@ -214,7 +214,7 @@ lxc launch ubuntu:16.04 cuda
 ```
 
 We've given this new instance the name of 'cuda'. If this is the first time
-you've deployed an LXD instance with 'ubuntu:16.04', it's image will be
+you've deployed an LXD instance with 'ubuntu:16.04', its image will be
 retrieved as part of the creation process. 
 
 ```
@@ -223,7 +223,7 @@ Retrieving image: rootfs: 21% (5.98MB/s)
 Starting cuda
 ```
 
-Our cuda instance is now running!
+Our 'cuda' instance is now running!
 
 ## Add drivers to LXD
 
@@ -272,9 +272,9 @@ lxc config device add cuda gpu gpu id=0
 Omitting `id-0` from the end of this command will allow LXD to access all GPUs,
 rather than the one with the first id.
 
-Running `nvidia-smi` within the LXC environment should now produce the same
+Running `nvidia-smi` within the LXD environment should now produce the same
 output we retrieved from the host environment, showing that your Nvidia
-hardware is now correctly configured for use within LXC.  
+hardware is now correctly configured for use within LXD.  
 
 ## Add CUDA to LXD
 
