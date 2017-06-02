@@ -1,19 +1,20 @@
 Title: GPU data processing inside LXD
-TODO: Do something with CUDA
+TODO: Do something interesting with CUDA
+      Add some images
 
 # GPU data processing inside LXD
 
 Hugely parallelised GPU data processing, using either [CUDA][nvidiacuda] or
 [OpenCL][opencl], is changing the shape of data science. It even has its own
 snappy acronym - GPGPU - General-purpose computing on graphics processing
-units.  It's no surprise, then, that flexible, scaleable access to these GPU
+units.  It's no surprise, then, that flexible, scalable access to these GPU
 resources is becoming a key requirement in many cloud deployments (see the
 Canonical Distribution of [Kubernetes][kubernetes] for a good example). But
 it's not always easy, nor cheap, to get started. Unless you use [LXD][lxd].
 
 Thanks to LXD's unrivalled density in real-world cloud deployments, and its
 ability to run locally, LXD provides one of the best ways of experimenting with
-cloud-like GPU data processing. It enables you to create local scaleable
+cloud-like GPU data processing. It enables you to create local scalable
 deployments using nothing more than a PC with a GPU or two. As we'll now
 demonstrate.
 
@@ -31,9 +32,9 @@ Our configuration is going to be based on the following:
 We'll be using Nvidia hardware alongside Nvidia's proprietary CUDA, as these
 currently constitute the most widely used GPGPU platform. 
 
-However, LXD's hardware passthrough enables any GPU hardware to appear natively
-to any deployment, which means that using different GPUs or drivers with OpenCL
-should be possible.
+However, LXD's hardware passthrough enables any GPU to appear natively to any
+deployment, which means that using different GPUs or drivers with OpenCL should
+be possible.
 
 As both Nvidia's drivers and CUDA are constantly in a rapid state of
 development, we're going to install and use the latest versions we can get hold
@@ -43,8 +44,8 @@ distribution, which we'll cover in the next step.
 ## Nvidia drivers
 
 With either a new or old Ubuntu 16.04 installation, it's likely that you'll
-already have Nvidia drivers of one sort or another on your system. We need to
-make sure these are fully removed before attempting to install a new set.
+have Nvidia drivers of one sort or another on your system. We need to make sure
+these are fully removed before attempting to install a new set.
 
 When working with graphics drivers, it's best to quit from the *X.org*
 graphical environment and work on the command line. This can be done by
@@ -54,25 +55,21 @@ entering the following into a terminal:
 sudo systemctl isolate multi-user.target
 ```
 
-While not strictly necessary if you're already using Nvidia's proprietary
-drivers, we've had fewer problems when completely removing these before
-starting with a fresh driver installation. 
-
-To remove your current Nvidia our open source Nouveau drivers, enter the
+To remove your current Nvidia or open source Nouveau drivers, enter the
 following:
 
 ```bash
 sudo apt remove --purge nvidia*
 ```
 
-It's probably safer to reboot your machine at this point, although this isn't
-strictly necessary either.
+It's safer to reboot your machine at this point, although this isn't strictly
+necessary.
 
 ### Nouveau
 
-There's a possibility that the `nouveau` drivers, installed by default when you
-elect not to add Nvidia's proprietary drivers, refuse to remove themselves. You
-can check with the following command: 
+The `nouveau` driver, installed by default when you elect not to add Nvidia's
+proprietary drivers, may refuse to remove themselves. You can check with the
+following command: 
 
 ```bash
 lsmod | grep nouveau
@@ -272,7 +269,7 @@ This can be done with the following command:
 lxc config device add cuda gpu gpu id=0
 ```
 
-Ommiting `id-0` from the end of this command will allow LXD to access all GPUs,
+Omitting `id-0` from the end of this command will allow LXD to access all GPUs,
 rather than the one with the first id.
 
 Running `nvidia-smi` within the LXC environment should now produce the same
