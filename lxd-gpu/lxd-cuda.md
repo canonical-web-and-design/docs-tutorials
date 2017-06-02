@@ -29,10 +29,11 @@ Our configuration is going to be based on the following:
     version 2.5.
 
 We'll be using Nvidia hardware alongside Nvidia's proprietary CUDA, as these
-currently constitute the most widely used GPGPU platform. However, as LXD's
-hardware passthrough capability can enable any other GPU hardware to appear
-natively to any deployment, using different GPUs or drivers with OpenCL should
-be possible.
+currently constitute the most widely used GPGPU platform. 
+
+However, LXD's hardware passthrough enables any GPU hardware to appear natively
+to any deployment, which means that using different GPUs or drivers with OpenCL
+should be possible.
 
 As both Nvidia's drivers and CUDA are constantly in a rapid state of
 development, we're going to install and use the latest versions we can get hold
@@ -41,13 +42,13 @@ distribution, which we'll cover in the next step.
 
 ## Nvidia drivers
 
-With an Ubuntu 16.04 install, it's likely that you'll already have Nvidia
-drivers of one sort or another installed on your system, and we need to make
-sure these are fully removed before attempting to install a new set.
+With either a new or old Ubuntu 16.04 installation, it's likely that you'll
+already have Nvidia drivers of one sort or another on your system. We need to
+make sure these are fully removed before attempting to install a new set.
 
-When working with graphics drivers, it's best to quit from the X.org graphical
-environment and work on the command line. This can be done by entering the
-following into a terminal:
+When working with graphics drivers, it's best to quit from the *X.org*
+graphical environment and work on the command line. This can be done by
+entering the following into a terminal:
 
 ```bash
 sudo systemctl isolate multi-user.target
@@ -57,7 +58,8 @@ While not strictly necessary if you're already using Nvidia's proprietary
 drivers, we've had fewer problems when completely removing these before
 starting with a fresh driver installation. 
 
-To remove your current drivers, enter the following:
+To remove your current Nvidia our open source Nouveau drivers, enter the
+following:
 
 ```bash
 sudo apt remove --purge nvidia*
@@ -68,16 +70,15 @@ strictly necessary either.
 
 ### Nouveau
 
-Though this step shouldn't be be needed - there's a possibility that the
-`nouveau` drivers, installed by default when you elect not to add Nvidia's
-proprietary drivers, refuse to remove themselves. You can check with the
-following command: 
+There's a possibility that the `nouveau` drivers, installed by default when you
+elect not to add Nvidia's proprietary drivers, refuse to remove themselves. You
+can check with the following command: 
 
 ```bash
 lsmod | grep nouveau
 ```
 
-If the output includes the `nouveau` module, you will need to *blacklist* this
+If the output includes the `nouveau` module, you will need to blacklist this
 module to stop it loading in future. You can do this by adding the following to
 `/etc/modprobe.d/blacklist.conf` as root with your favourite text editor:
 
@@ -99,10 +100,10 @@ on both the host and any LXD containers we deploy.
 
 For this reason, we've opted to use a PPA
 ([https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa][ppa]) for the
-drivers, as this simplifies installation across both the host and any
-containers you deploy. The alternative is to manually build the drivers
-directly from Nvidia's website, but this takes more effort and is harder to
-maintain across deployments.
+drivers. This simplifies installation across both the host and any container
+instances you deploy. The alternative is to manually build the drivers directly
+from Nvidia's website, but this takes more effort and is harder to maintain
+across multiple deployments.
 
 To add the PPA and update your local package database, enter the following:
 
@@ -118,7 +119,7 @@ apt install nvidia-381
 ```
 
 !!! Note:
-    Take a look at the PPA, or use `apt search nvidia` to find the version
+    Take a look at the PPA, or use `apt search nvidia`, to find the version
     number of the latest drivers.
 
 You'll need to reboot your machine after the installing the Nvidia drivers,
@@ -139,7 +140,7 @@ Thu May 25 13:32:33 2017
 +-------------------------------+----------------------+----------------------+
 ```
 
-## Install CUDA toolkit
+## Install the CUDA toolkit
 
 With the drivers installed, the next step is to grab CUDA itself. While there
 are Ubuntu packages available, we've found the most reliable option is to
@@ -169,7 +170,7 @@ want this installed on-top of the driver we already have. All further questions
 can be answered `y` to accept their default values. 
 
 To add CUDA to your path, add the following to your bash configuration file,
-eg. `~/.bashrc`, and either resource the file or logout and back in again:
+eg. `~/.bashrc`, and either re-source the file or log out and back in again:
 
 ```bash
 export PATH=/usr/local/cuda-8.0/bin:$PATH
@@ -201,11 +202,12 @@ of the output.
 
 With the host now correctly configured and ready to go, it's time to launch LXD.
 
-If this is the first time you've used LXD, see our
-[getting started guide][gettingstarted] guide for a few pointers. 
+If this is the first time you've used LXD, see our [getting started
+guide][getstarted] guide for a few pointers. 
 
-In particular, you will need to have a network and a storage pool defined,
-`lxd init` will step you through the process if you've not done this already.
+In particular, you will need to have a network and a storage pool defined. The
+`lxd init` command will step you through the process if you've not done this
+already.
 
 You can then launch a fresh deployment of Ubuntu 16.04 with the following
 command:
