@@ -257,7 +257,8 @@ can't check the driver in the same way we did earlier. The output from running
 
 
 ```bash
-NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.
+NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver.
+Make sure that the latest NVIDIA driver is installed and running.
 ```
 
 For this to work, we need to push our Nvidia hardware from the host environment
